@@ -1,6 +1,6 @@
 <br />
 <p align="center">
-  <h1 align="center">Nutrisee</h1>
+  <h1 align="center">NutriSee</h1>
   <h2 align="center">
   Image Recognition-based Food Calorie Checker An Automated Tool for Accurate and Efficient Calorie Estimation</h2>
   
