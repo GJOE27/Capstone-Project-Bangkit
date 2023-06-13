@@ -1,0 +1,16 @@
+import requests
+
+url = "https://app-66o65w2gbq-et.a.run.app"  
+
+id_token = "eyJhbGciOiJSUzI1NiIsImtpZCI6IjU0NWUyNDZjNTEwNmExMGQ2MzFiMTA0M2E3MWJiNTllNWJhMGM5NGQiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vY2Fwc3RvbmUtbnV0cmlzZWUiLCJhdWQiOiJjYXBzdG9uZS1udXRyaXNlZSIsImF1dGhfdGltZSI6MTY4NjAyNDUyMCwidXNlcl9pZCI6Ikgyd1BnMlFBOUpkb0FhZm1oZVgyeVVTVUF4azEiLCJzdWIiOiJIMndQZzJRQTlKZG9BYWZtaGVYMnlVU1VBeGsxIiwiaWF0IjoxNjg2MDI0NTIwLCJleHAiOjE2ODYwMjgxMjAsImVtYWlsIjoiZXhhbXBsZUBleGFtcGxlLmNvbSIsImVtYWlsX3ZlcmlmaWVkIjpmYWxzZSwiZmlyZWJhc2UiOnsiaWRlbnRpdGllcyI6eyJlbWFpbCI6WyJleGFtcGxlQGV4YW1wbGUuY29tIl19LCJzaWduX2luX3Byb3ZpZGVyIjoiY3VzdG9tIn19.MNuRIMiF67ATEmqBGtD4pgZcJrzqEkANkeHfguv9Us0IGX5kfx4-B3b8PYk8OSag6-B12E1kOQHo3G30OXrKU-d3_m5tcuqbBKLDmi0yCAZqUZZR_ImrR1ga1rCKcRk4eNsUnUVIAyyUXR1HmXSwkX7kqwYIqXIFYxat0NRhw-eEL-tuEwXOkW6_So4hYOuqTCHnRJJrE4CcvNXCh0VEI7VW1LhwLrMslkwsyUGHUWi8_xXy2yRb0b91aaAPsV-5w1lDTO1Gs7FLqk_fEptuddBtt_aSTipJ7Pz7BIZm7Ubr5PCYIloiwKeI5YzD4lgrdBYQkf1ArOzQkMXW2nBI0w"
+
+headers = {
+    'Authorization': id_token,
+}
+
+response = requests.post(f"{url}/logout", headers=headers)
+
+if response.status_code == 200:
+    print("User logged out successfully")
+else:
+    print("Logout error:", response.json().get('error'))
