@@ -40,7 +40,15 @@ class Repository(
         return result.id_token
     }
 
-    // Login 1
+    fun getEmail(): String {
+        val result = runBlocking {
+            withContext(Dispatchers.IO) {
+                pref.getUser().first()
+            }
+        }
+        return result.email
+    }
+
     fun login(email: String, password: String) = flow {
         emit(Result.Loading())
         try {
@@ -91,25 +99,6 @@ class Repository(
         }
     }
 
-    fun upload(file: File, name: String, kalori: String) = flow {
-        emit(Result.Loading())
-        try {
-            val token = getToken()
-            val reducedFile = reduceFileImage(file)
-            val requestFile = reducedFile.asRequestBody("image/jpeg".toMediaTypeOrNull())
-            val multipartBody: MultipartBody.Part =
-                MultipartBody.Part.createFormData("photo", file.name, requestFile)
-            val response = ApiConfig.getApiService().upload(token, multipartBody, name, kalori)
-            if (response.message == "Image uploaded successfully") {
-                emit(Result.Success(response))
-            } else {
-                emit(Result.Error(response.message ?: "Failed to predict image"))
-            }
-        } catch (e: Exception) {
-            emit(Result.Error(e.localizedMessage ?: "Failed to predict image"))
-        }
-    }
-
     suspend fun getListImage(): Flow<Result<ListImageResponse>> = flow {
         emit(Result.Loading())
         try {
@@ -121,26 +110,6 @@ class Repository(
             emit(Result.Error(ex.toString()))
         }
     }.flowOn(Dispatchers.IO)
-
-    // ini nanti (sudah termasuk pada predict)
-//    fun upload(file: File) = flow {
-//        emit(Result.Loading())
-//        try {
-//            val token = getToken()
-//            val requestFile = file.asRequestBody("image/jpeg".toMediaTypeOrNull())
-//            val multipartBody: MultipartBody.Part =
-//                MultipartBody.Part.createFormData("image_file", file.name, requestFile)
-//            val response = ApiConfig.getApiService().upload(token, multipartBody)
-//            if(!response.error) { //
-//                emit(Result.Success(response))
-//            } else {
-//                emit(Result.Error(response.message))
-//            }
-//        } catch (e: Exception) {
-//            (e as? HttpException)?.response()?.errorBody()?.string()
-//            emit(e.localizedMessage?.let { Result.Error(it) })
-//        }
-//    }
 
     fun getUser() = pref.getUser().asLiveData()
 

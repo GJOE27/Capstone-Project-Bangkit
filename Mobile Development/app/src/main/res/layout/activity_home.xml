@@ -6,7 +6,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!-- Main Content -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -17,6 +16,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="25dp"
             android:layout_marginStart="-30dp"
+            android:drawableEnd="@drawable/baseline_menu_24"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -32,8 +32,6 @@
             app:layout_constraintStart_toEndOf="@id/btn_toggle_drawer"
             app:layout_constraintTop_toTopOf="@id/btn_toggle_drawer"
             app:layout_constraintBottom_toBottomOf="@id/btn_toggle_drawer" />
-
-        <!-- Your main content layout goes here -->
 
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/swipe_refresh"
@@ -69,7 +67,6 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <!-- Navigation Drawer -->
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/navigation_view"
         android:layout_width="wrap_content"
@@ -82,18 +79,9 @@
             android:background="@drawable/navigation_drawer_background"
             android:orientation="vertical">
 
-            <!-- Header View -->
             <include
                 android:id="@+id/drawer_home"
                 layout="@layout/drawer_home" />
-
-            <!-- RecyclerView -->
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerView"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-
-                android:layout_weight="1" />
 
         </LinearLayout>
 

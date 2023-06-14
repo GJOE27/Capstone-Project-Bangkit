@@ -33,15 +33,6 @@ interface ApiService {
         @Part photo: MultipartBody.Part
     ) : UploadResponse
 
-    @Multipart
-    @POST("upload")
-    suspend fun upload(
-        @Header("Authorization") idToken: String,
-        @Part photo: MultipartBody.Part,
-        @Part("name") name: String,
-        @Part("kalori") kalori: String
-    ) : UploadResponse
-
     @GET("list_images")
     suspend fun getListImage(
         @Header("Authorization") token: String

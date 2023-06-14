@@ -18,11 +18,12 @@ class ArchiveAdapter(private val context: Context, private val clickListener: On
     RecyclerView.Adapter<ArchiveAdapter.ArchiveViewHolder>(){
 
     private val listImage = ArrayList<ListImageResult>()
+    private val formatDate = SimpleDateFormat("EEEE, d MMMM | HH:mm", Locale("id"))
 
     @SuppressLint("NotifyDataSetChanged")
     fun setData(list: List<ListImageResult>) {
         listImage.clear()
-        listImage.addAll(list)
+        listImage.addAll(list.sortedByDescending { it.createdAt })
         notifyDataSetChanged()
     }
 
@@ -46,8 +47,13 @@ class ArchiveAdapter(private val context: Context, private val clickListener: On
                 val formatted = split.take(2).joinToString(" ")
                 val format = formatted.replace("_", " ").replaceFirstChar { it.uppercase() }
 
+                val dateString = listImage.createdAt
+                val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
+                val date = dateFormat.parse(dateString)
+                val formattedDate = formatDate.format(date)
+
                 tvArchiveName.text = format
-                tvArchiveDate.text = listImage.createdAt
+                tvArchiveDate.text = formattedDate
                 Glide.with(context)
                     .load(listImage.url)
                     .into(ivArchives)

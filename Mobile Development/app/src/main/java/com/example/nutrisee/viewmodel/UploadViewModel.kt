@@ -15,7 +15,4 @@ class UploadViewModel constructor(private val repository: Repository) : ViewMode
     fun setFile(file: File) {
         mTempFile.value = file
     }
-
-//    fun upload(file: File) =
-//        repository.upload(file).asLiveData()
 }

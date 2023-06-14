@@ -26,6 +26,7 @@ class SplashActivity : AppCompatActivity() {
         initViewModel()
         setupView()
 
+        @Suppress("DEPRECATION")
         Handler().postDelayed({
             val intent = if(isLogin) {
                 Intent(this@SplashActivity, HomeActivity::class.java)

@@ -51,13 +51,4 @@ class EditTextEmail : AppCompatEditText {
             error = context.getString(R.string.error_email)
         }
     }
-
-    private fun setDrawable(
-        start: Drawable? = null,
-        top: Drawable? = null,
-        end: Drawable? = null,
-        bottom: Drawable? = null
-    ) {
-        setCompoundDrawablesRelativeWithIntrinsicBounds(start, top, end, bottom)
-    }
 }

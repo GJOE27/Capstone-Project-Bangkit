@@ -1,6 +1,10 @@
 package com.example.nutrisee.activity
 
+import android.content.Context
 import android.content.Intent
+import android.hardware.camera2.CameraAccessException
+import android.hardware.camera2.CameraCharacteristics
+import android.hardware.camera2.CameraManager
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -9,17 +13,25 @@ import android.os.Looper
 import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AlertDialog
+import androidx.camera.core.Camera
+import androidx.camera.core.CameraControl
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ExperimentalGetImage
 import androidx.camera.core.ImageCapture
 import androidx.camera.core.ImageCaptureException
 import androidx.camera.core.Preview
+import androidx.camera.core.TorchState
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
+import com.example.nutrisee.R
 import com.example.nutrisee.databinding.ActivityCameraBinding
 import com.example.nutrisee.utils.Helper.Companion.createFile
 import com.example.nutrisee.utils.Helper.Companion.uriToFile
 import java.io.File
+import java.util.concurrent.Executor
+import java.util.concurrent.ExecutorService
+import java.util.concurrent.Executors
 
 class CameraActivity : AppCompatActivity() {
 
@@ -27,7 +39,8 @@ class CameraActivity : AppCompatActivity() {
     private var imageCapture: ImageCapture? = null
     private var cameraSelector: CameraSelector = CameraSelector.DEFAULT_FRONT_CAMERA
 
-    private var getFile: File? = null
+    private lateinit var cameraManager: CameraManager
+    var isFlash = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,7 +60,9 @@ class CameraActivity : AppCompatActivity() {
                 takePhoto()
             }
             btnFlash.setOnClickListener {
-                Toast.makeText(this@CameraActivity, "Flash menyala", Toast.LENGTH_SHORT).show()
+//                cameraManager = getSystemService(Context.CAMERA_SERVICE) as CameraManager
+//                flashlight(it)
+                Toast.makeText(this@CameraActivity, R.string.error_flash, Toast.LENGTH_SHORT).show()
             }
             btnBack.setOnClickListener {
                 val intent = Intent(this@CameraActivity, HomeActivity::class.java)
@@ -108,8 +123,6 @@ class CameraActivity : AppCompatActivity() {
                     ).show()
                 }
                 override fun onImageSaved(output: ImageCapture.OutputFileResults) {
-//                    showLoading()
-                    val intent = Intent(this@CameraActivity, LoadingScreen::class.java)
                     val intentResult = Intent(this@CameraActivity, ResultActivity::class.java)
                     intentResult.putExtra(EXTRA_PICTURE, photoFile.absolutePath)
                     intentResult.putExtra(IS_BACK_CAMERA, cameraSelector == CameraSelector.DEFAULT_BACK_CAMERA)
@@ -131,20 +144,6 @@ class CameraActivity : AppCompatActivity() {
             } else {
                 Toast.makeText(this, "Terjadi kesalahan.", Toast.LENGTH_SHORT).show()
             }
-        }
-    }
-
-
-    private fun showLoading() {
-        binding.apply {
-            Handler(Looper.getMainLooper()).postDelayed({
-                btnLoading.visibility = View.VISIBLE
-            }, 2000)
-//            if(isLoading) {
-//                btnLoading.visibility = View.VISIBLE
-//            } else {
-//                btnLoading.visibility = View.GONE
-//            }
         }
     }
 
@@ -176,3 +175,32 @@ class CameraActivity : AppCompatActivity() {
 
     }
 }
+
+
+//    private fun flashlight(v: View?) {
+//        try {
+//            val cameraListId = cameraManager.cameraIdList[0]
+//            val characteristics = cameraManager.getCameraCharacteristics(cameraListId)
+//            val hasFlash = characteristics.get(CameraCharacteristics.FLASH_INFO_AVAILABLE)
+//
+//            if (hasFlash == true) {
+//                if (!isFlash) {
+//                    cameraManager.setTorchMode(cameraListId, true)
+//                    isFlash = true
+//                } else {
+//                    cameraManager.setTorchMode(cameraListId, false)
+//                    isFlash = false
+//                }
+//            } else {
+//                AlertDialog.Builder(this@CameraActivity).apply {
+//                    setTitle(R.string.warning)
+//                    setMessage(R.string.error_flash)
+//                    setPositiveButton("Yes") { dialog, _ ->
+//                        dialog.dismiss()
+//                    }
+//                }
+//            }
+//        } catch (e: CameraAccessException) {
+//            e.printStackTrace()
+//        }
+//    }

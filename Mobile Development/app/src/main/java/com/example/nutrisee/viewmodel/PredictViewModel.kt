@@ -10,7 +10,4 @@ class PredictViewModel(
 ) : ViewModel() {
 
     fun predict(file: File) = repository.predict(file).asLiveData()
-
-    fun upload(file: File, name: String, kalori: String) =
-        repository.upload(file, name, kalori).asLiveData()
 }

@@ -4,16 +4,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!-- Header View Content -->
     <ImageView
         android:id="@+id/iv_feed_profile"
         android:layout_width="90dp"
         android:layout_height="90dp"
-        android:layout_marginStart="29dp"
         android:layout_marginTop="55dp"
         android:scaleType="centerCrop"
         android:src="@drawable/baseline_account_24"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
@@ -26,7 +25,9 @@
         android:text="@string/profile_name_null"
         android:textSize="20sp"
         android:textStyle="bold"
+        android:gravity="center"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/iv_feed_profile" />
 
     <TextView
@@ -36,6 +37,7 @@
         android:layout_marginStart="29dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="29dp"
+        android:gravity="center"
         android:text="@string/profile_email"
         android:textSize="14sp"
         app:layout_constraintStart_toStartOf="parent"
@@ -47,7 +49,7 @@
         android:layout_height="wrap_content"
         android:text="@string/settings"
         android:backgroundTint="@color/grey"
-        android:drawableStart="@drawable/baseline_settings_24"
+        android:drawableEnd="@drawable/baseline_settings_24"
         app:layout_constraintBottom_toTopOf="@id/btn_log_out"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -59,6 +61,7 @@
         android:layout_marginBottom="28dp"
         android:text="@string/log_out"
         android:textStyle="bold"
+        android:drawableEnd="@drawable/baseline_logout_24"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -72,7 +75,5 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:visibility="gone"/>
-
-    <!-- Other views or content for the header -->
 
 </androidx.constraintlayout.widget.ConstraintLayout>

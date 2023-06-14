@@ -15,9 +15,7 @@ class Preferences private constructor(private val dataStore: DataStore<Preferenc
     fun getUser(): Flow<User> {
         return dataStore.data.map { preferences ->
             User(
-//                preferences[DISPLAY_NAME] ?: "",
                 preferences[ID_TOKEN] ?: "",
-//                preferences[PHOTO_KEY] ?: "",
                 preferences[EMAIL_KEY] ?: ""
             )
         }
@@ -25,18 +23,14 @@ class Preferences private constructor(private val dataStore: DataStore<Preferenc
 
     suspend fun saveUser(user: User) {
         dataStore.edit { preferences ->
-//            preferences[DISPLAY_NAME] = user.displayName
             preferences[ID_TOKEN] = user.id_token
-//            preferences[PHOTO_KEY] = user.photoUrl
             preferences[EMAIL_KEY] = user.email
         }
     }
 
     suspend fun deleteUser() {
         dataStore.edit { preferences ->
-//            preferences[DISPLAY_NAME] = ""
             preferences[ID_TOKEN] = ""
-//            preferences[PHOTO_KEY] = ""
             preferences[EMAIL_KEY] = ""
         }
     }
@@ -45,9 +39,7 @@ class Preferences private constructor(private val dataStore: DataStore<Preferenc
         @Volatile
         private var INSTANCE: com.example.nutrisee.data.local.Preferences? = null
 
-        private val DISPLAY_NAME = stringPreferencesKey("display_name")
         private val EMAIL_KEY = stringPreferencesKey("email")
-        private val PHOTO_KEY = stringPreferencesKey("photo_url")
         private val ID_TOKEN = stringPreferencesKey("id_token")
 
         fun getInstance(dataStore: DataStore<Preferences>): com.example.nutrisee.data.local.Preferences {

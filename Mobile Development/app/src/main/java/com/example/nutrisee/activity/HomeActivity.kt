@@ -1,11 +1,11 @@
 package com.example.nutrisee.activity
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
@@ -21,21 +21,18 @@ import com.example.nutrisee.ViewModelFactory
 import com.example.nutrisee.adapter.ListFeedAdapter
 import com.example.nutrisee.data.local.Feed
 import com.example.nutrisee.databinding.ActivityHomeBinding
-import com.example.nutrisee.databinding.DrawerHomeBinding
 import com.example.nutrisee.viewmodel.HomeViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 @ExperimentalGetImage class HomeActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityHomeBinding
-//    private lateinit var bindingDrawer: DrawerHomeBinding
     private lateinit var viewModel: HomeViewModel
 
     private lateinit var rvFeeds: RecyclerView
     private val list = ArrayList<Feed>()
 
     companion object {
-        const val CAMERA_X_RESULT = 200
         private val REQUIRED_PERMISSIONS = arrayOf(Manifest.permission.CAMERA)
         private const val REQUEST_CODE_PERMISSIONS = 10
     }
@@ -65,7 +62,6 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityHomeBinding.inflate(layoutInflater)
-//        bindingDrawer = DrawerHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         rvFeeds = findViewById(R.id.rv_feeds)
@@ -88,6 +84,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
         setupNavigation()
     }
 
+    @SuppressLint("Recycle")
     private fun getListFeeds(): ArrayList<Feed> {
         val imgProfile = R.drawable.baseline_account_24
         val nameProfile = resources.getStringArray(R.array.feeds_person)
@@ -113,18 +110,22 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
             btnLogOut.setOnClickListener {
                 AlertDialog.Builder(this@HomeActivity).apply {
                     setTitle(R.string.log_out)
-                    setMessage("Are you sure want to log out?")
-                    setPositiveButton("Yes") { _, _ ->
+                    setMessage(R.string.logout_confirmation)
+                    setPositiveButton(R.string.yes) { _, _ ->
                         viewModel.logout()
                         val intent = Intent(this@HomeActivity, LoginActivity::class.java)
                         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                                 startActivity(intent)
                         finish()
                     }
+                    setNegativeButton(R.string.no) { dialog, _ ->
+                        dialog.dismiss()
+                    }
                 }.show()
             }
             btnSettings.setOnClickListener {
-                Toast.makeText(this@HomeActivity, "Ini button setting", Toast.LENGTH_SHORT).show()
+                val intent = Intent(this@HomeActivity, SettingActivity::class.java)
+                startActivity(intent)
             }
         }
     }
@@ -154,19 +155,11 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
                 drawerLayout.closeDrawer(GravityCompat.START)
             } else {
                 drawerLayout.openDrawer(GravityCompat.START)
-                binding.drawerHome.tvProfileName.text = "User"
+                val email = viewModel.getEmail()
+                binding.drawerHome.tvProfileEmail.text = email
             }
         }
-        binding.drawerHome.btnSettings.setOnClickListener {
-            Log.d("HomeActivity", "Button Settings clicked")
-//            Toast.makeText(this@HomeActivity, "Ini button setting", Toast.LENGTH_SHORT).show()
-        }
     }
-
-    override fun onResume() {
-        super.onResume()
-    }
-
 
     @Suppress("DEPRECATION")
     private fun setupNavigation() {

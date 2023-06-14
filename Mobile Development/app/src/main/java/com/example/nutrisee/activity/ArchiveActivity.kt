@@ -6,7 +6,10 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityOptionsCompat
+import androidx.core.view.GravityCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -32,7 +35,9 @@ class ArchiveActivity : AppCompatActivity(), ArchiveAdapter.OnItemClickAdapter {
         setContentView(binding.root)
         archiveAdapter = ArchiveAdapter(this, this)
 
+        setupAction()
         initViewModel()
+        setDrawer()
         setupNavigation()
         getListImages()
 
@@ -63,7 +68,6 @@ class ArchiveActivity : AppCompatActivity(), ArchiveAdapter.OnItemClickAdapter {
                     }
                     is Result.Loading -> {
                         binding.pbLoading.visibility = View.VISIBLE
-                        binding.swipeRefresh.isRefreshing = true
                     }
                     is Result.Error -> {
                         binding.pbLoading.visibility = View.GONE
@@ -77,10 +81,59 @@ class ArchiveActivity : AppCompatActivity(), ArchiveAdapter.OnItemClickAdapter {
         }
     }
 
+    private fun setupAction() {
+        binding.drawerHome.apply {
+            btnLogOut.setOnClickListener {
+                AlertDialog.Builder(this@ArchiveActivity).apply {
+                    setTitle(R.string.log_out)
+                    setMessage("Are you sure want to log out?")
+                    setPositiveButton("Yes") { _, _ ->
+                        viewModel.logout()
+                        val intent = Intent(this@ArchiveActivity, LoginActivity::class.java)
+                        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                        startActivity(intent)
+                        finish()
+                    }
+                    setNegativeButton("No") { dialog, _ ->
+                        dialog.dismiss()
+                    }
+                }.show()
+            }
+            btnSettings.setOnClickListener {
+                Toast.makeText(this@ArchiveActivity, "This is Settings Button", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
     private fun initViewModel() {
         viewModel = ViewModelProvider(
             this, ViewModelFactory(application)
         )[ArchiveViewModel::class.java]
+    }
+
+    private fun setDrawer() {
+        val drawerLayout = binding.drawerLayout
+        val btnToggleDrawer = binding.btnToggleDrawer
+
+        val actionBarDrawerToggle = ActionBarDrawerToggle(
+            this,
+            drawerLayout,
+            R.string.navigation_drawer_open,
+            R.string.navigation_drawer_close
+        )
+
+        drawerLayout.addDrawerListener(actionBarDrawerToggle)
+        actionBarDrawerToggle.syncState()
+        btnToggleDrawer.setOnClickListener {
+
+            if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+                drawerLayout.closeDrawer(GravityCompat.START)
+            } else {
+                drawerLayout.openDrawer(GravityCompat.START)
+                val email = viewModel.getEmail()
+                binding.drawerHome.tvProfileEmail.text = email
+            }
+        }
     }
 
     @Suppress("DEPRECATION")

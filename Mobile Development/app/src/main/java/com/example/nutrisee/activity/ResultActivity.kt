@@ -1,6 +1,6 @@
 package com.example.nutrisee.activity
 
-import android.R
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
@@ -13,26 +13,24 @@ import androidx.appcompat.app.AlertDialog
 import androidx.camera.core.ExperimentalGetImage
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
+import com.example.nutrisee.R
 import com.example.nutrisee.ViewModelFactory
 import com.example.nutrisee.activity.CameraActivity.Companion.EXTRA_PICTURE
 import com.example.nutrisee.activity.CameraActivity.Companion.URI_IMAGE
-import com.example.nutrisee.activity.fragment.DetailFragment
 import com.example.nutrisee.databinding.ActivityResultBinding
 import com.example.nutrisee.utils.Helper.Companion.rotateFile
 import com.example.nutrisee.utils.Helper.Companion.uriToFile
 import com.example.nutrisee.utils.Result
 import com.example.nutrisee.viewmodel.PredictViewModel
-import kotlinx.coroutines.Job
 import java.io.File
 
-@ExperimentalGetImage class ResultActivity : AppCompatActivity() {
+@ExperimentalGetImage
+class ResultActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityResultBinding
     private lateinit var viewModel: PredictViewModel
 
-    private var getFile: File? = null
-    private var uploadJob: Job = Job()
-    private var isProcessing: Boolean = false
+    private var number: Int = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,11 +41,6 @@ import java.io.File
         initViewModel()
         putImage()
         setupButton()
-
-        binding.btnUpload.setOnClickListener {
-            Toast.makeText(this, "Fitur belum tersedia", Toast.LENGTH_SHORT).show()
-//            upload()
-        }
     }
 
     private fun initViewModel() {
@@ -58,10 +51,6 @@ import java.io.File
 
     private fun setupButton() {
         binding.apply {
-            tvResultName.setOnClickListener {
-//                setupFragment()
-            }
-
             btnBack.setOnClickListener {
                 val intent = Intent(this@ResultActivity, HomeActivity::class.java)
                 startActivity(intent)
@@ -69,7 +58,8 @@ import java.io.File
         }
     }
 
-
+    @Suppress("DEPRECATION")
+    @SuppressLint("SetTextI18n")
     private fun putImage() {
         val picturePath = intent.getStringExtra(EXTRA_PICTURE)
         val pictureGallery = intent.getStringExtra(URI_IMAGE)
@@ -83,51 +73,81 @@ import java.io.File
             viewModel.predict(imageFile).observe(this@ResultActivity) { result ->
                 when (result) {
                     is Result.Loading -> {
-                        binding.pbLoading.visibility = View.VISIBLE
-//                        binding.previewView.visibility = View.GONE
+                        setupVisibility(false)
                     }
 
                     is Result.Success -> {
-                        binding.pbLoading.visibility = View.GONE
-//                        binding.previewView.visibility = View.VISIBLE
                         val response = result.data
-                        val message = response?.message
                         val name = response?.name
-                        val kalori = "${response?.kalori} kalori per 1 serving"
+                        val kalori = response?.kalori
                         val formattedName =
                             name?.replace("_", " ")?.replaceFirstChar { it.uppercase() }
-                        val print = "$formattedName\n$kalori kalori"
                         binding.tvResultName.text = formattedName
-                        binding.tvResultKalori.text = kalori
-                        if (name != null) {
-                            successPredict(name)
+                        binding.tvResultKalori.text = "$kalori ${getString(R.string.calory)}"
+                        binding.apply {
+                            setupVisibility(true)
+                            btnPlus.setOnClickListener {
+                                number++
+                                binding.numberServing.text = number.toString()
+                                val amount = kalori?.times(number)
+                                binding.tvResultKalori.text = "$amount ${getString(R.string.calory)}"
+                            }
+                            btnMinus.setOnClickListener {
+                                if (number > 1) {
+                                    number--
+                                    binding.numberServing.text = number.toString()
+                                    val amount = kalori?.times(number)
+                                    binding.tvResultKalori.text = "$amount ${getString(R.string.calory)}"
+                                } else {
+                                    Toast.makeText(
+                                        this@ResultActivity,
+                                        getString(R.string.cant_less),
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                }
+                            }
+                            btnUpload.text = getString(R.string.close)
+                            btnUpload.setOnClickListener {
+                                val intent = Intent(this@ResultActivity, ArchiveActivity::class.java)
+                                startActivity(intent)
+                            }
+                        }
+
+                        if (formattedName != null) {
+                            successPredict(formattedName)
                         }
                     }
 
                     is Result.Error -> {
-                        binding.pbLoading.visibility = View.GONE
+                        binding.apply {
+                            pbLoading.visibility = View.GONE
+                            btnPlus.visibility = View.GONE
+                            btnMinus.visibility = View.GONE
+                            tvServing.visibility = View.GONE
+                            numberServing.visibility = View.GONE
+                        }
                         val response = result.data
                         val error = result.message
                         val errorMessage = result.data?.message
                         val name = response?.name
-                        val kalori = response?.kalori
-                        val message = response?.message
                         if (errorMessage != null) {
                             val errorPosition =
                                 "Error position: ${Thread.currentThread().stackTrace[2]}"
                             Log.e("API Error", "$errorPosition $errorMessage")
                         }
                         Log.e("TAG", "Error : $errorMessage")
-                        val formattedText =
-                            message?.replace("_", " ")?.replaceFirstChar { it.uppercase() }
-                        val print = "[ERROR] $formattedText \n $name \n $kalori\n Error : $error"
-                        binding.tvResultName.text = print
-//                        if (name != null) {
-//                            successPredict(name)
-//                        }
+                        binding.tvResultName.text = "[$error]\n${getString(R.string.try_again)}"
+                        binding.btnUpload.text = getString(R.string.close)
+                        binding.btnUpload.setOnClickListener {
+                            val intent = Intent(this@ResultActivity, HomeActivity::class.java)
+                            startActivity(intent)
+                        }
+                            if (name != null) {
+                                successPredict(name)
+                            }
                         Toast.makeText(
                             this@ResultActivity,
-                            "Terjadi kesalahan: $print",
+                            "${getString(R.string.something_wrong)} $error",
                             Toast.LENGTH_SHORT
                         ).show()
                     }
@@ -145,35 +165,81 @@ import java.io.File
             viewModel.predict(file).observe(this@ResultActivity) { result ->
                 when (result) {
                     is Result.Loading -> {
-                        binding.pbLoading.visibility = View.VISIBLE
-//                        binding.previewView.visibility = View.GONE
+                        setupVisibility(false)
                     }
 
                     is Result.Success -> {
-                        binding.pbLoading.visibility = View.GONE
-//                        binding.previewView.visibility = View.VISIBLE
                         val response = result.data
-                        val message = response?.message
                         val name = response?.name
-                        val kalori = "${response?.kalori} kalori"
+                        val kalori = response?.kalori
                         val formattedName =
                             name?.replace("_", " ")?.replaceFirstChar { it.uppercase() }
-                        val print = "$formattedName\n$kalori kalori"
                         binding.tvResultName.text = formattedName
-                        binding.tvResultKalori.text = kalori
+                        binding.tvResultKalori.text = "$kalori ${getString(R.string.calory)}"
+                        binding.apply {
+                            setupVisibility(true)
+                            btnPlus.setOnClickListener {
+                                number++
+                                binding.numberServing.text = number.toString()
+                                val amount = kalori?.times(number)
+                                binding.tvResultKalori.text = "$amount ${getString(R.string.calory)}"
+                            }
+                            btnMinus.setOnClickListener {
+                                if (number > 1) {
+                                    number--
+                                    binding.numberServing.text = number.toString()
+                                    val amount = kalori?.times(number)
+                                    binding.tvResultKalori.text = "$amount ${getString(R.string.calory)}"
+                                } else {
+                                    Toast.makeText(
+                                        this@ResultActivity,
+                                        getString(R.string.cant_less),
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                }
+                            }
+                            btnUpload.text = getString(R.string.close)
+                            btnUpload.setOnClickListener {
+                                val intent = Intent(this@ResultActivity, ArchiveActivity::class.java)
+                                startActivity(intent)
+                            }
+                        }
+
+                        if (formattedName != null) {
+                            successPredict(formattedName)
+                        }
                     }
 
                     is Result.Error -> {
-                        binding.pbLoading.visibility = View.GONE
-                        val errorMessage = result.message
+                        binding.apply {
+                            pbLoading.visibility = View.GONE
+                            btnPlus.visibility = View.GONE
+                            btnMinus.visibility = View.GONE
+                            tvServing.visibility = View.GONE
+                            numberServing.visibility = View.GONE
+                        }
+                        val response = result.data
+                        val error = result.message
+                        val errorMessage = result.data?.message
+                        val name = response?.name
                         if (errorMessage != null) {
                             val errorPosition =
                                 "Error position: ${Thread.currentThread().stackTrace[2]}"
                             Log.e("API Error", "$errorPosition $errorMessage")
                         }
+                        Log.e("TAG", "Error : $errorMessage")
+                        binding.tvResultName.text = "[$error]\n${getString(R.string.try_again)}"
+                        binding.btnUpload.text = getString(R.string.close)
+                        binding.btnUpload.setOnClickListener {
+                            val intent = Intent(this@ResultActivity, HomeActivity::class.java)
+                            startActivity(intent)
+                        }
+                        if (name != null) {
+                            successPredict(name)
+                        }
                         Toast.makeText(
                             this@ResultActivity,
-                            "Terjadi kesalahan: $errorMessage",
+                            "${getString(R.string.something_wrong)}: $error",
                             Toast.LENGTH_SHORT
                         ).show()
                     }
@@ -186,56 +252,31 @@ import java.io.File
 
     private fun successPredict(message: String) {
         AlertDialog.Builder(this)
-            .setTitle("Success")
-            .setMessage("Hasil prediksi : $message")
+            .setTitle(getString(R.string.success))
+            .setMessage("${getString(R.string.predict_result)} : $message")
             .setPositiveButton("OK") { dialog, _ ->
                 dialog.dismiss()
             }.show()
     }
 
-
-    override fun onResume() {
-        super.onResume()
-//        if (isProcessing) {
-//            Log.d("ResultActivity", "API processing in progress")
-//            binding.pbLoading.visibility = View.VISIBLE
-//        } else {
-//            Log.d("ResultActivity", "API processing completed")
-//            binding.pbLoading.visibility = View.GONE
-//        }
-    }
-
-
-    private fun upload() {
-        val file = getFile as File
-        val name = binding.tvResultName as String
-        val kalori = binding.tvResultKalori.toString()
-        viewModel.upload(file, name, kalori).observe(this@ResultActivity) { result ->
-            when(result) {
-                is Result.Loading -> {
-                    binding.pbLoading.visibility = View.VISIBLE
-                }
-                is Result.Success -> {
-                    binding.pbLoading.visibility = View.GONE
-                    val intent = Intent(this@ResultActivity, HomeActivity::class.java)
-                    startActivity(intent)
-                }
-                is Result.Error -> {
-                    binding.pbLoading.visibility = View.GONE
-                    Toast.makeText(this, "Gagal mengunggah", Toast.LENGTH_SHORT).show()
-                }
+    private fun setupVisibility(isBoolean: Boolean) {
+        if(isBoolean) {
+            binding.apply {
+                pbLoading.visibility = View.GONE
+                btnPlus.visibility = View.VISIBLE
+                btnMinus.visibility = View.VISIBLE
+                tvServing.visibility = View.VISIBLE
+                numberServing.visibility = View.VISIBLE
+            }
+        } else {
+            binding.apply {
+                pbLoading.visibility = View.VISIBLE
+                btnPlus.visibility = View.GONE
+                btnMinus.visibility = View.GONE
+                tvServing.visibility = View.GONE
+                numberServing.visibility = View.GONE
             }
         }
-    }
-
-    private fun setupFragment() {
-        val fragmentManager = supportFragmentManager
-
-        val fragmentTransaction = fragmentManager.beginTransaction()
-        val detailFragment = DetailFragment()
-        fragmentTransaction.add(R.id.content, detailFragment)
-        fragmentTransaction.addToBackStack(null)
-        fragmentTransaction.commit()
     }
 
     companion object {
