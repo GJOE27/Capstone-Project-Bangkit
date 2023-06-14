@@ -1,11 +1,64 @@
 <resources>
-    <string name="app_name">TestAPI</string>
+    <string name="app_name">NutriSee</string>
+    <string name="hint_email">example@example.com</string>
+    <string name="error_email">Your email is invalid</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="dont_have_account">Don\'t have an account?</string>
+    <string name="sign_in">SIGN IN</string>
+    <string name="hint_password">********</string>
+    <string name="error_password">Password invalid</string>
+    <string name="hint_username">Your Username</string>
+    <string name="error_username">This username is invalid</string>
+    <string name="error_phone_number">This phone number invalid</string>
+    <string name="hint_phone_number">08xxxxxxxxxxxx</string>
+    <string name="failed_to_take_picture">Failed to take picture</string>
+    <string name="failed_to_start_camera">Failed to start Camera</string>
+    <string name="image">Image</string>
+    <string name="camera">Camera</string>
+    <string name="flash">Flash</string>
+    <string name="photo">Photo</string>
+    <string name="profile_name">Dewiken Alek</string>
+    <string name="profile_email">dewiken.alekzz@bangkit.academy</string>
+    <string name="log_out">LOG OUT</string>
+    <string name="profile_name_feed">Ini profile name</string>
+    <string name="caption_feed">Ini caption pada feed</string>
+    <string name="date_feed">Ini tanggal/bulan/tahun</string>
+    <string name="title_app">NutriSee</string>
+    <string name="navigation_drawer_open">Drawer Open</string>
+    <string name="navigation_drawer_close">Drawer Close</string>
+    <string name="home">Home</string>
+    <string name="progress">Progress</string>
+    <string name="settings">SETTING</string>
+    <string name="profile_name_null">Profile name (not saved)</string>
+    <string name="archive">Archive</string>
 
-    <string name="result">Result</string>
-    <string name="take_picture">Take Picture</string>
+    <string-array name="feeds_person">
+        <item>Faishal Afif</item>
+        <item>Afif</item>
+        <item>Apep</item>
+        <item>Apeep</item>
+        <item>Sal</item>
+        <item>Apip</item>
+        <item>Afif Faishal</item>
+    </string-array>
 
-    <string name="camera_x">CameraX</string>
-    <string name="camera">Kamera</string>
-    <string name="gallery">Galeri</string>
-    <string name="upload">Unggah</string>
+    <string-array name="feeds_caption">
+        <item>Rendang daging sapi</item>
+        <item>Telur telur telur</item>
+        <item>Ayam goreng flash sale dua singgit</item>
+        <item>Sambalado telur</item>
+        <item>Kaya akan omega 3</item>
+        <item>Nasi diet nih bos</item>
+        <item>aku vegan dan aku bangga . .</item>
+    </string-array>
+
+    <integer-array name="feeds_photo">
+        <item>@drawable/rendang</item>
+        <item>@drawable/telur</item>
+        <item>@drawable/ayam_goreng</item>
+        <item>@drawable/telur_balado</item>
+        <item>@drawable/ikan_bakar</item>
+        <item>@drawable/nasi_merah</item>
+        <item>@drawable/daun_singkong</item>
+    </integer-array>
 </resources>
