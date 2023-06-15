@@ -16,6 +16,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="25dp"
             android:layout_marginStart="-30dp"
+            android:backgroundTint="@color/brown500"
             android:drawableEnd="@drawable/baseline_menu_24"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -62,7 +63,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:menu="@menu/bottom_navigation_menu"
-            android:background="@color/orange"
+            android:background="@color/brown500"
+            app:itemIconTint="@color/white"
+            app:itemIconSize="36dp"
+            app:itemTextColor="@color/white"
             app:layout_constraintBottom_toBottomOf="parent" />
 
         <ProgressBar

@@ -36,7 +36,7 @@
     <string name="error_flash">Perangkat ini tidak mendukung fitur flash</string>
     <string name="fill_blanks">Harap masukkan field yang kosong</string>
     <string name="loading">Loading</string>
-    <string name="result">HASIL</string>
+    <string name="result">Hasil</string>
     <string name="serving">porsi</string>
     <string name="serving_placeholder">1</string>
     <string name="close">TUTUP</string>
@@ -51,4 +51,9 @@
     <string name="success">Sukses</string>
     <string name="predict_result">Hasil Prediksi</string>
     <string name="something_wrong">Terjadi kesalahan</string>
+    <string name="join_us">Ikuti Kami!</string>
+    <string name="have_u_eaten">Apakah kamu sudah makan?</string>
+    <string name="copyright_nutrisee">©NutriSee</string>
+    <string name="sign_up_success">Sign up Berhasil</string>
+    <string name="welcome_signup">Selamat datang di Nutrisee,</string>
 </resources>

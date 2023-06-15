@@ -3,6 +3,7 @@ package com.example.nutrisee.activity
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.content.Intent
+import android.opengl.Visibility
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.TextUtils
@@ -11,6 +12,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.camera.core.ExperimentalGetImage
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import com.example.nutrisee.R
 import com.example.nutrisee.ViewModelFactory
@@ -54,29 +56,34 @@ import com.example.nutrisee.viewmodel.LoginViewModel
                     when (result) {
                         is Result.Loading -> {
                             showLoading(true)
+                            binding.tvHaveU.visibility = View.GONE
                         }
 
                         is Result.Success -> {
+                            binding.tvHaveU.visibility = View.VISIBLE
                             val idToken = result.data?.id_token as String
                             showLoading(false)
-                            AlertDialog.Builder(this@LoginActivity).apply {
-                                setTitle("Hi $email !")
+                            val builder = AlertDialog.Builder(this@LoginActivity).apply {
+                                setTitle("Hi $email!")
                                 setMessage("${getString(R.string.welcome)} NutriSee")
                                 setCancelable(false)
-                                setPositiveButton("OK") { _, _ ->
+                                setPositiveButton("OK") { dialog, which ->
                                     viewModel.saveUser(User(idToken, email))
-                                    val intent =
-                                        Intent(this@LoginActivity, HomeActivity::class.java)
+                                    val intent = Intent(this@LoginActivity, HomeActivity::class.java)
                                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
                                     startActivity(intent)
                                     finish()
                                 }
-                                create()
-                                show()
                             }
+
+                            val dialog = builder.create()
+                            dialog.window?.setBackgroundDrawableResource(R.drawable.custom_dialog_background)
+
+                            dialog.show()
                         }
 
                         is Result.Error -> {
+                            binding.tvHaveU.visibility = View.VISIBLE
                             showLoading(false)
                             binding.pbLoading.visibility = View.GONE
                             val errorMessage = result.message ?: getString(R.string.error_login)
@@ -93,6 +100,10 @@ import com.example.nutrisee.viewmodel.LoginViewModel
                 }
             }
         }
+    }
+
+    private fun alertDialogBuilder(isBoolean: Boolean) {
+
     }
 
     private fun showLoading(isLoading: Boolean) {

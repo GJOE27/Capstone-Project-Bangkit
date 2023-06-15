@@ -18,7 +18,7 @@ class ArchiveAdapter(private val context: Context, private val clickListener: On
     RecyclerView.Adapter<ArchiveAdapter.ArchiveViewHolder>(){
 
     private val listImage = ArrayList<ListImageResult>()
-    private val formatDate = SimpleDateFormat("EEEE, d MMMM | HH:mm", Locale("id"))
+    private val formatDate = SimpleDateFormat("EEEE, d MMMM | HH:mm", Locale("in"))
 
     @SuppressLint("NotifyDataSetChanged")
     fun setData(list: List<ListImageResult>) {

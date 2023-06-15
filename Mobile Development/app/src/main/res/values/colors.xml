@@ -3,7 +3,12 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
-    <color name="orange">#F19350</color>
     <color name="grey">#969696</color>
-    <color name="green">#84FF4A</color>
+
+    <color name="brown">#6D3737</color>
+    <color name="brown500">#DB6950</color>
+    <color name="orange">#DB8250</color>
+    <color name="green">#E4E759</color>
+    <color name="yellow">#EBFB90</color>
+
 </resources>

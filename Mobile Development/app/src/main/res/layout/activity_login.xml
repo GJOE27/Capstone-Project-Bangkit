@@ -10,11 +10,26 @@
         android:id="@+id/img_logo"
         android:layout_width="0dp"
         android:layout_height="118dp"
-        android:src="@drawable/logo"
+        android:src="@drawable/icon"
         android:background="@android:color/transparent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toTopOf="@id/guideline1"/>
+
+    <TextView
+        android:id="@+id/tv_have_u"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        app:layout_constraintTop_toBottomOf="@id/img_logo"
+        app:layout_constraintStart_toStartOf="@id/img_logo"
+        app:layout_constraintEnd_toEndOf="@id/img_logo"
+        android:gravity="center"
+        android:text="@string/have_u_eaten"
+        android:textSize="36sp"
+        android:textColor="@color/brown"
+        android:textStyle="bold"/>
 
     <com.example.nutrisee.custom.EditTextEmail
         android:alpha="0"
@@ -30,7 +45,7 @@
         android:paddingEnd="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/img_logo"/>
+        app:layout_constraintTop_toBottomOf="@id/tv_have_u"/>
 
     <com.example.nutrisee.custom.EditTextPassword
         android:alpha="0"
@@ -57,6 +72,8 @@
         android:layout_marginEnd="16dp"
         android:layout_marginTop="34dp"
         android:text="@string/sign_in"
+        android:textStyle="bold"
+        android:textSize="16sp"
         android:background="@drawable/button"
         app:layout_constraintTop_toBottomOf="@id/edt_password"
         app:layout_constraintStart_toStartOf="parent"
@@ -105,7 +122,7 @@
         android:id="@+id/pb_loading"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:progressTint="@color/orange"
+        android:progressTint="@color/brown"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"

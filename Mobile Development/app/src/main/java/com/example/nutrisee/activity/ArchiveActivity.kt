@@ -8,6 +8,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
+import androidx.camera.core.ExperimentalGetImage
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.view.GravityCompat
 import androidx.lifecycle.ViewModelProvider
@@ -24,7 +25,7 @@ import com.example.nutrisee.utils.Result
 import com.example.nutrisee.viewmodel.ArchiveViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
-class ArchiveActivity : AppCompatActivity(), ArchiveAdapter.OnItemClickAdapter {
+@ExperimentalGetImage class ArchiveActivity : AppCompatActivity(), ArchiveAdapter.OnItemClickAdapter {
     private lateinit var binding: ActivityArchiveBinding
     private lateinit var viewModel: ArchiveViewModel
     private lateinit var archiveAdapter: ArchiveAdapter

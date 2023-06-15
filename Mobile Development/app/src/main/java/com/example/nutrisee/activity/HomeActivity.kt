@@ -82,20 +82,26 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
         initViewModel()
         setDrawer()
         setupNavigation()
+
+        binding.swipeRefresh.setOnRefreshListener {
+            binding.swipeRefresh.isRefreshing = true
+            getListFeeds()
+        }
     }
 
     @SuppressLint("Recycle")
     private fun getListFeeds(): ArrayList<Feed> {
-        val imgProfile = R.drawable.baseline_account_24
+        val imgProfile = resources.obtainTypedArray(R.array.data_photo)
         val nameProfile = resources.getStringArray(R.array.feeds_person)
         val caption = resources.getStringArray(R.array.feeds_caption)
         val imgFeeds = resources.obtainTypedArray(R.array.feeds_photo)
-        val date = "Selasa 14 Juni 2023"
+        val date = resources.getStringArray(R.array.date)
         val listFeed = ArrayList<Feed>()
         for(i in nameProfile.indices) {
-            val feed = Feed(imgProfile, nameProfile[i], caption[i], imgFeeds.getResourceId(i, -1), date)
+            val feed = Feed(imgProfile.getResourceId(i, -1), nameProfile[i], caption[i], imgFeeds.getResourceId(i, -1), date[i])
             listFeed.add(feed)
         }
+        binding.swipeRefresh.isRefreshing = false
         return listFeed
     }
 
@@ -105,6 +111,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
         rvFeeds.adapter = listFeedAdapter
     }
 
+    @SuppressLint("SuspiciousIndentation")
     private fun setupAction() {
         binding.drawerHome.apply {
             btnLogOut.setOnClickListener {
@@ -164,6 +171,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
     @Suppress("DEPRECATION")
     private fun setupNavigation() {
         val bottomNavigationView: BottomNavigationView = findViewById(R.id.bottom_menu_navigation)
+
         bottomNavigationView.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.navigation_home -> {

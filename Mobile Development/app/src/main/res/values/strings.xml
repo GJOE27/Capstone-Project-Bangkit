@@ -35,7 +35,7 @@
     <string name="error_flash">Flash is not supported on this version</string>
     <string name="fill_blanks">Please fill in the blanks</string>
     <string name="loading">Loading</string>
-    <string name="result">RESULT</string>
+    <string name="result">Result</string>
     <string name="serving">serving</string>
     <string name="serving_placeholder">1</string>
     <string name="close">CLOSE</string>
@@ -50,6 +50,11 @@
     <string name="success">Success</string>
     <string name="predict_result">Predict Result</string>
     <string name="something_wrong">Something went wrong</string>
+    <string name="join_us">Join Us!</string>
+    <string name="have_u_eaten">Have you eaten yet?</string>
+    <string name="copyright_nutrisee">©NutriSee</string>
+    <string name="sign_up_success">Sign up success</string>
+    <string name="welcome_signup">Welcome to Nutrisee,</string>
 
     <string-array name="feeds_person">
         <item>Faishal Afif</item>
@@ -80,4 +85,29 @@
         <item>@drawable/nasi_merah</item>
         <item>@drawable/daun_singkong</item>
     </integer-array>
+
+    <integer-array name="data_photo">
+        <item>@drawable/person1</item>
+        <item>@drawable/person2</item>
+        <item>@drawable/person3</item>
+        <item>@drawable/person2</item>
+        <item>@drawable/person1</item>
+        <item>@drawable/person2</item>
+        <item>@drawable/person3</item>
+        <item>@drawable/person1</item>
+        <item>@drawable/person2</item>
+    </integer-array>
+
+    <string-array name="date">
+        <item>Selasa, 14 Juni 2023</item>
+        <item>Selasa, 13 Juni 2023</item>
+        <item>Selasa, 13 Juni 2023</item>
+        <item>Selasa, 12 Juni 2023</item>
+        <item>Selasa, 10 Juni 2023</item>
+        <item>Selasa, 10 Juni 2023</item>
+        <item>Selasa, 9 Juni 2023</item>
+        <item>Selasa, 8 Juni 2023</item>
+        <item>Selasa, 8 Juni 2023</item>
+        <item>Selasa, 7 Juni 2023</item>
+    </string-array>
 </resources>

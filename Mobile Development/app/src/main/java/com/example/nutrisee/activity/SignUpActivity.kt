@@ -10,12 +10,14 @@ import android.view.View
 import android.widget.Toast
 import androidx.camera.core.ExperimentalGetImage
 import androidx.lifecycle.ViewModelProvider
+import com.example.nutrisee.R
 import com.example.nutrisee.ViewModelFactory
 import com.example.nutrisee.databinding.ActivitySignUpBinding
 import com.example.nutrisee.utils.Result
 import com.example.nutrisee.viewmodel.SignUpViewModel
 
-@ExperimentalGetImage class SignUpActivity : AppCompatActivity() {
+@ExperimentalGetImage
+class SignUpActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivitySignUpBinding
     private lateinit var viewModel: SignUpViewModel
@@ -62,8 +64,12 @@ import com.example.nutrisee.viewmodel.SignUpViewModel
                                 edtEmail.visibility = View.VISIBLE
                                 edtPassword.visibility = View.VISIBLE
                             }
+                            Toast.makeText(
+                                this@SignUpActivity, "${getString(R.string.welcome_signup)} $email",
+                                Toast.LENGTH_SHORT
+                            ).show()
                             val intent =
-                                Intent(this@SignUpActivity, HomeActivity::class.java)
+                                Intent(this@SignUpActivity, LoginActivity::class.java)
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
                             startActivity(intent)
                             finish()
