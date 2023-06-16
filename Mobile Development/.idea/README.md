@@ -2,11 +2,11 @@
 
 ### Features
   * **Splash Screen**: This application includes a splash screen that appears before entering the main page.
-  * 
+   
   * **Multilingual Support**: The application supports multiple languages, allowing users to switch between different languages based on their preferences or device settings.
-  * 
+   
   * **Pick Image From Gallery**: Users can select an image from their device's gallery as a preliminary step for uploading it to the application.
-  *
+  
   * **Capture Image from Camera** : Users have the option to take a photo using their device's camera as a preparatory step for uploading the image for further analysis and prediction.
   * **Archive** :  Users can store the predicted result, along with comprehensive information, within the application for easy access and review.
     
