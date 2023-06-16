@@ -25,7 +25,7 @@
   - [Paging](https://developer.android.com/topic/libraries/architecture/paging/v3-migration)
 
 ### Screenshot
-<div align="center">
+<div style="display: flex; justify-content: space-between;">
   <img src="https://github.com/GJOE27/Capstone-Project-Bangkit/assets/74942192/f4c6a42d-9af4-4187-add9-d7e1d38fbb79" alt="SplashScreen" width="200" />
   <img src="https://github.com/GJOE27/Capstone-Project-Bangkit/assets/74942192/8097519a-4eeb-4691-b5c0-9e13d49b0b4d" alt="LoginPage" width="200" />
   <img src="https://github.com/GJOE27/Capstone-Project-Bangkit/assets/74942192/b961c902-7776-42ac-b55b-2f80c519369d" alt="SignUpPage" width="200" />
@@ -36,4 +36,3 @@
   <img src="https://github.com/GJOE27/Capstone-Project-Bangkit/assets/74942192/43d2326e-6c7a-4b05-a3c4-e5e00b00f127" alt="ResultPage" width="200" />
   <img src="https://github.com/GJOE27/Capstone-Project-Bangkit/assets/74942192/480547e3-ae14-49e3-bd4e-b15454912075" alt="ArchivePage" width="200" />
 </div>
-
